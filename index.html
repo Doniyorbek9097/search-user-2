@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+
+  #app{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px 20px;
+  }
+
+  #app input{
+    width: 80%;
+    padding: 10px 10px;
+    font-size: 20px;
+    border-radius: 0 20px 0 20px;
+    outline: none;
+
+  }
+  .card-box{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 50px;
+
+  }
+
+  .card{
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+  }
+
+    .male{
+      background-color: blue;
+      
+    }
+
+    .female{
+      background-color: red;
+      
+    }
+
+
+  </style>
+  
+  <body>
+    
+
+
+    <div id="app">
+
+      <input type="text" v-model = "searchUser" placeholder="Search people">
+      <div class="card-box">
+        
+        <div v-for="user in FilterUser" class="card" :class="{male:user.gender == 'male',female:user.gender == 'female' }">
+          <img :src ="user.picture.large"  :alt="user.first_name">
+          <b>{{user.name.first}}</b>
+          <p>{{user.name.last}}</p>
+
+        </div>
+
+
+      </div>
+          
+      </ul>
+
+      
+
+    </div>
+
+
+
+
+
+
+
+
+  <script >
+    new Vue({
+      el:"#app",
+      data () {
+        return {
+          name:"sarvar",
+          usersData: [],
+          searchUser:"",
+        };
+      },
+      created(){
+           fetch("https://randomuser.me/api/?results=50")
+          .then(res => res.json())
+          .then(data => this.usersData = data.results);
+           
+      },
+
+      methods: {
+         
+      },
+
+      computed: {
+        FilterUser:function(){
+          return this.usersData.filter((user) => {
+          return user.name.first.toUpperCase().includes(this.searchUser.toUpperCase());
+          })
+         }
+      }
+
+      
+    })
+
+  </script>
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
